@@ -2,7 +2,8 @@ import cv2 as cv
 import numpy as np
 from skimage.metrics import peak_signal_noise_ratio, structural_similarity
 
-# metric for evaluating the quality of the watermark
+# metric for evaluating the quality of the watermark, i.e. 
+# the similarity between the original image and the watermarked image
 class QMetric:
     def evaluate(self, watermark_img, orig_img):
         raise NotImplementedError

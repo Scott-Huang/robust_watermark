@@ -1,5 +1,6 @@
 import cv2 as cv
 
+# read image to RGBA format
 def read_img(filename):
     img = cv.imread(filename)
     if img is None:

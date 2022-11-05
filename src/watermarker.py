@@ -6,6 +6,16 @@ from typing import Any
 class Base_Watermarker:
     @staticmethod
     def create_watermark(watermark: str|np.ndarray|torch.Tensor|Any, size=None, **args):
+        raise NotImplementedError
+
+    def watermark(self, image, position, watermark):
+        raise NotImplementedError
+
+class Example_Watermarker(Base_Watermarker):
+    # Create a watermark from a string or an image
+    # It's just a hand-made example, you can use any method you want
+    @staticmethod
+    def create_watermark(watermark: str|np.ndarray|torch.Tensor|Any, size=None, **args):
         def get_optimal_font_scale(text, width):
             for scale in reversed(range(0, 60, 1)):
                 textSize = cv.getTextSize(text, fontFace=cv.FONT_HERSHEY_DUPLEX, fontScale=scale/10, thickness=1)
@@ -22,10 +32,6 @@ class Base_Watermarker:
             watermark = cv.resize(watermark, size)
         return watermark
 
-    def watermark(self, image, position, watermark):
-        raise NotImplementedError
-
-class Example_Watermarker(Base_Watermarker):
     def watermark(self, image, position, watermark):
         assert image.shape[0] >= watermark.shape[0] + position[0]
         assert image.shape[1] >= watermark.shape[1] + position[1]
