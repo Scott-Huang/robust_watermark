@@ -1,0 +1,6 @@
+[submodule "src/model/AOT-GAN-for-Inpainting"]
+	path = src/model/AOT-GAN-for-Inpainting
+	url = https://github.com/researchmm/AOT-GAN-for-Inpainting.git
+[submodule "src/model/DeepFillv2_Pytorch"]
+	path = src/model/DeepFillv2_Pytorch
+	url = https://github.com/csqiangwen/DeepFillv2_Pytorch.git
