@@ -7,11 +7,13 @@ import torch
 import cv2 as cv
 import numpy as np
 from PIL import Image
+from args_util import AOT_Args, DeepFillv2_Args
+
 def aot_gan():
     import importlib
     from torchvision.transforms import ToTensor
     sys.path.append('./model/AOT-GAN-for-Inpainting/src')
-    from utils.option import args # need to overwrite it later
+    args = AOT_Args()
     args.pre_train = './model/AOT-GAN-for-Inpainting/pre_trained/G0000000.pt'
     net = importlib.import_module('model.'+args.model)
     model = net.InpaintGenerator(args).cuda()
@@ -36,7 +38,7 @@ def aot_gan():
 def deepfill():
     sys.path.insert(0,'./model/DeepFillv2_Pytorch')
     from utils import create_generator
-    from test import opt # need to overwrite it later
+    opt = DeepFillv2_Args()
     model_name = 'deepfillv2_WGAN_G_epoch40_batchsize4.pth'
     model_name = os.path.join('model/DeepFillv2_Pytorch/pretrained_model', model_name)
     pretrained_dict = torch.load(model_name)
@@ -72,5 +74,5 @@ def stable_diffusion():
         img = Image.fromarray(img).resize((512, 512))
         mask = Image.fromarray(mask).resize((512, 512))
         prompt = "" # no prompt
-        return np.asarray(pipe(prompt=prompt, image=img, mask_image=mask).images[0].resize(size))
+        return np.asarray(pipe(prompt=prompt, image=img, mask_image=mask).images[0].resize((size[1], size[0])))
     return inpaint
