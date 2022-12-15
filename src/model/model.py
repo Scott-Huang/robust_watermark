@@ -7,7 +7,7 @@ import torch
 import cv2 as cv
 import numpy as np
 from PIL import Image
-from args_util import AOT_Args, DeepFillv2_Args
+from model.args_util import AOT_Args, DeepFillv2_Args
 
 def aot_gan():
     import importlib
@@ -46,9 +46,9 @@ def deepfill():
     generator.load_state_dict(pretrained_dict)
     generator = generator.cuda()
     def inpaint(img, mask):
-        if img.isinstance(Image.Image):
+        if isinstance(img, Image.Image):
             img = img.convert('RGB')
-        elif img.isinstance(np.ndarray) and img.shape[2] == 4:
+        elif isinstance(img, np.ndarray) and img.shape[2] == 4:
             img = cv.cvtColor(img, cv.COLOR_RGBA2RGB)
         img = torch.from_numpy(img.astype(np.float32) / 255.0).permute(2, 0, 1).contiguous()
         mask = torch.from_numpy(mask.astype(np.float32) / 255.0).unsqueeze(0).contiguous()
